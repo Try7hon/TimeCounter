@@ -7,7 +7,7 @@ const imageSection = document.querySelector('.image-section');
 const eventName = document.querySelector('#event-name');
 const eventDay = document.querySelector('#event-day');
 const eventMonth = document.querySelector('#event-month');
-const eventYear = document.querySelector('#event- year');
+const eventYear = document.querySelector('#event-year');
 const eventImg = document.querySelector('#event-image');
 
 const daysCount = document.querySelector('.days-count');
@@ -20,14 +20,39 @@ const eventSpan = document.querySelector('.event');
 
 let usersTime;
 
+const setTime = () => {
+	const currentTime = new Date();
+	const result = usersTime - currentTime;
+
+	const days = Math.floor(result / 1000 / 60 / 60 / 24);
+	const hours = Math.floor(result / 1000 / 60 / 60) % 24;
+	const minutes = Math.floor(result / 1000 / 60) % 60;
+	const seconds = Math.floor(result / 1000) % 60;
+
+	daysCount.textContent = days;
+	hoursCount.textContent = hours;
+	minutesCount.textContent = minutes;
+	secondsCount.textContent = seconds;
+};
+
 // https://cdn.pixabay.com/photo/2023/03/08/10/11/crocuses-7837426_960_720.jpg
+const init = () => {
+	daysCount.textContent = '';
+	hoursCount.textContent = '';
+	minutesCount.textContent = '';
+	secondsCount.textContent = '';
+};
 
 const appUpdate = () => {
-	usersTime = new Date(`${eventMonth.value} ${eventDay.value} ${eventYear.value}`);
-
 	eventSpan.textContent = eventName.value;
+	usersTime = new Date(`${eventMonth.value} ${eventDay.value} ${eventYear.value}`);
 	imageSection.style.backgroundImage = `url("${eventImg.value}")`;
+	setInterval(setTime, 1000);
 };
+
+init();
+
+// setInterval(setTime, 1000);
 
 settingsBtn.addEventListener('click', () => {
 	settings.classList.toggle('active');
